@@ -1,0 +1,85 @@
+<button type="button" class="float btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  New Post
+</button>
+
+<!-- Modal -->
+<div class="modal fade modal-signin" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class=" modal-dialog modal-fullscreen-sm-down" role="document">
+    <div class="modal-content rounded-5 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">Sign in to existing account</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form action="/login" method="POST" class="">
+ 
+          <div class="form-floating mb-3">
+            <input type="email" name="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" name="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign in</button>
+          <small class="text-muted">By clicking Sign in, you agree to the terms of use.</small>
+          <hr class="my-4">
+          <h2 class="fs-5 fw-bold mb-3">Don't have an account?</h2>
+          <a class="wa-100 py-2 mb-2 btn btn-outline-dark rounded-4" href="signup">
+            Sign up
+          </a>
+        </form>
+      </div>
+    </div>
+</div>
+
+</div>
+<div class="modal modal-fullscreen-sm-down fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog dialog-new-post modal-fullscreen-sm-down">
+    <div class="modal-content content-new-post">
+      <div class="modal-header">
+        <h5 id="staticBackdropLabel" class="modal-title fst-italic">
+          <% if (isAuthenticated){%>
+            Hey <%=username%>, What is on your mind?
+          <%}%>
+          <% if (!isAuthenticated){%>
+            Need to login before posting
+          <%}%>
+      </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <% if (isAuthenticated){%>
+         <form action="add-post" method="POST">
+        <div class="form-floating mb-3">
+          <input type="text" name="title" class="form-control rounded-4" id="title" placeholder="heading...">
+          <label for="title">Post heading</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" name="subtitle" class="form-control rounded-4" id="subtitle" placeholder="subheading...">
+          <label for="subtitle">Post subheading</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" name="tags" class="form-control rounded-4" id="title" placeholder="tags...(ie:World;Technology)">
+          <label for="title">Optional: Tags (ie: World;Technology)</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control rounded-4" id="imageUrl" name="imageUrl" placeholder="Image url">
+          <label for="imageUrl">Post background image url</label>
+        </div>
+        <div class="form-floating mb-3">
+          <textarea style="height:auto"  rows="6" type="text" class="form-control rounded-4" name="content" id="content" placeholder="Post content"></textarea>
+          <label for="content">Post content</label>
+        </div>
+        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Post</button>
+        <hr class="my-4">
+      </form>
+        <%}%>
+         <% if (!isAuthenticated){%>
+           <a style="text-align: center;padding-top: 200px;" href="/signup">Sign Up</a>
+        <%}%>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/blog/">
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<body>
+  <style>
+    .rounded{
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+    }
+    .lead{
+      margin: 10px;
+      text-align: start;
+      padding-top: 2em;
+    }
+  </style>
+<%- include('../includes/navigation.ejs') %>
+<main class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="<%- post._id %>"><%- post.title %></a></li>
+    </ol>
+  </nav>
+  <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+        <form>
+            <input type="text" name="title" value="<%- post.title %>" />
+            <input type="text" name="subtitle" value="<%- post.subtitle %>" />
+            <input type="text" name="imageUrl" value="<%- post.imageUrl %>" />
+            <input type="text" name="content" value="<%- post.content %>" />
+            <button class='btn btn-primary float'>Save</button>
+        </form>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  
+</main>
+<%- include('../includes/footer.ejs') %>
+ <script src="../../../assets/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

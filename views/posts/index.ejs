@@ -1,0 +1,125 @@
+<%- include('../includes/head.ejs') %>
+<link href="css/blog.css" rel="stylesheet">
+<link href="css/modals.css" rel="stylesheet">
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main class="container">
+    <% if (posts.length > 0) { %>
+    <div style="background-image: url('<%- hero_post.imageUrl %>');height: 400px;" class=" p-4 p-md-5 mb-4 text-white rounded">
+      <div class="title col-md-6 px-0">
+        <h3 class="mb-0"><a href="post/<%=hero_post._id %>"><%= hero_post.title %></a></h3>
+        <div class="mb-1 text-muted"><%= hero_post.subtitle%></div>
+        <p class="blog-post-meta"><%= hero_post.createdAt.toDateString() %> by <a href="user/<%= hero_post.userId._id %>"><%= hero_post.userId.username %></a></p>
+        <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
+      </div>
+    </div>
+    <% } %>
+    
+    <% if (posts.length > 0) { %>
+      <div class="slider mb-2">
+        <div class="slider-inner">
+          <% for (let post of posts) { %>
+            <div style="min-width: 400px;" class="col-md-6">
+              <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                  <strong class="d-inline-block mb-2 text-primary">
+                  <%for (let tag of post.tags){%>
+                    <%= tag %>&nbsp; 
+                  <%}%>
+                  </strong>
+                  <h5 class="mb-0"><a href='post/<%= post._id %>'><%= post.title %></a></h5>
+                  <div class="mb-1 text-muted"><%= post.subtitle%></div>
+                  <div class="mb-1 text-muted"><p class="blog-post-meta"><%= post.createdAt.toDateString() %> by <a href="user/<%= post.userId._id %>"><%= post.userId.username %></a></p></div>
+                  <p class="card-text mb-auto"><%= post.content.substring(0,40)%>...</p>
+                  <a href='post/<%= post._id %>'>Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                  <img class="bd-placeholder-img" width="200" height="250" src="<%- post.imageUrl %>"  />
+                </div>
+              </div>
+            </div>
+          <% } %>
+          </div>
+      </div>
+  <% } else { %>
+      <h1>No Post Found!</h1>
+  <% } %>
+</div>
+  <%- include('../forms/add-post.ejs') %>
+   <%- include('../includes/toast.ejs') %>
+    <div class="row g-5">
+      <div class="col-md-8">
+        <h3 class="pb-4 mb-4 fst-italic border-bottom">
+          Latest posts
+        </h3>
+        
+        <% if (posts.length > 0) { %>
+          <% for (let post of posts) { %>
+            <article class="blog-post">
+              <h5 class="blog-post-title"><a href='post/<%= post._id %>'><%= post.title %></a></h5>
+              <p class="blog-post-meta"><%= post.createdAt.toDateString() %> by <a href="user/<%= post.userId._id %>"><%= post.userId.username %></a></p>
+              <p><%= post.content.substring(0,40) %>...</p>
+              <a href='post/<%= post._id %>'>Continue reading</a>
+              <hr>
+            </article>
+            <% } %>
+      <% } else { %>
+          <h1>No Post Found!</h1>
+      <% } %>
+        <nav class="blog-pagination" aria-label="Pagination">
+          <a class="btn btn-outline-primary" href="#">Older</a>
+          <a class="btn btn-outline-secondary disabled">Newer</a>
+        </nav>
+      </div>
+      <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+          <div class="p-4 mb-3 bg-light rounded">
+            <h4 class="fst-italic">About</h4>
+            <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+          </div>
+
+          <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
+            <% for (let user of suggestions) { %>
+            <div class="d-flex text-muted pt-3">
+              <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                  <strong class="text-gray-dark"><%= user.fullname %></strong>
+                  <% if (!isAuthenticated){ %>
+                    <a href="login">Sign In</a>
+                  <%}%>
+                  <% if (isAuthenticated){ %>
+                    <a href="user/<%= user._id %>">View Profile</a>
+                  <%}%>
+                </div>
+                <span class="d-block"><%= user.username %></span>
+              </div>
+            </div>
+            <% } %>
+  
+            <small class="d-block text-end mt-3">
+              <a href="#">All suggestions</a>
+            </small>
+          </div>
+  
+          <div class="p-4">
+            <h4 class="fst-italic">Archives</h4>
+            <ol class="list-unstyled mb-0">
+              <li><a href="#">September 2021</a></li>
+              <li><a href="#">October 2021</a></li>
+            </ol>
+          </div>
+  
+          <div class="p-4">
+            <h4 class="fst-italic">Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://github.com/acamara2016">GitHub</a></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('../includes/footer.ejs') %>
+</body>
+</html>

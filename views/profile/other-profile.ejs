@@ -1,0 +1,79 @@
+<%- include('../includes/head.ejs') %>
+<style>
+  .slider{
+    flex-wrap: wrap !important;
+  }
+  .profile{
+    text-align: center;
+    /* padding: 19px; */
+    /* width: 414px; */
+    margin: 20px;
+    max-width: 450px;
+  }
+  .profile-container{
+    text-align: -webkit-center;
+  }
+</style>
+<body>
+<%- include('../includes/navigation.ejs') %>
+<main class="container">
+  <div class="profile-container">
+    <div class="profile">
+      <img src="https://ui-avatars.com/api/?name=<%= user.username %>" />
+      <h3><%= user.username %></h3>
+      <% if (!follow){ %>
+      <form action="/follow" method="POST">
+          <input type='hidden' name='userId' value='<%= user._id %>'/>
+          <button class="btn btn-primary" type='submit'>Follow</button>
+      </form>
+      <%}%>
+      <% if (follow){ %>
+      <form action="/unfollow" method="POST">
+          <input type='hidden' name='userId' value='<%= user._id %>'/>
+          <button class="btn btn-danger" type='submit'>Un-follow</button>
+      </form>
+      <%}%>
+    </div>
+  </div>
+  <h3 class="pb-4 mb-4 fst-italic border-bottom">
+    Following (<%= user.followers.users.length %>)
+  </h3>
+  <% if (user.followers.users.length > 0){%>
+
+  <%}%>
+  <h3 class="pb-4 mb-4 fst-italic border-bottom">
+    Posts (<%= posts.length %>)
+  </h3>
+  <% if (posts.length > 0) { %>
+    <div class="slider mb-2">
+        <% for (let post of posts) { %>
+          <div style="min-width: 400px;" class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">
+                <%for (let tag of post.tags){%>
+                  <%= tag %>&nbsp; 
+                <%}%>
+                </strong>
+                <h5 class="mb-0"><a href='../post/<%= post._id %>'><%= post.title %></a></h5>
+                <div class="mb-1 text-muted"><%= post.subtitle%></div>
+                <div class="mb-1 text-muted"><p class="blog-post-meta"><%= post.createdAt.toDateString() %> by <a href="<%= post.userId %>"><%= post.userId.username %></a></p></div>
+                <p class="card-text mb-auto"><%= post.content.substring(0,40)%>...</p>
+                <a href='../post/<%= post._id %>'>Continue reading</a>
+              </div>
+              <div class="col-auto d-none d-lg-block">
+                <img class="bd-placeholder-img" width="200" height="250" src="<%- post.imageUrl %>"  />
+              </div>
+            </div>
+          </div>
+        <% } %>
+    </div>
+  <% } else { %>
+      <h1>No Post Found!</h1>
+  <% } %>
+  
+</main>
+<%- include('../includes/footer.ejs') %>
+ <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

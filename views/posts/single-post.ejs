@@ -1,0 +1,79 @@
+<%- include('../includes/head.ejs') %>
+<link href="../css/blog.css" rel="stylesheet">
+<link href="../css/modals.css" rel="stylesheet">
+<body>
+  <style>
+    .rounded{
+      background-position: center;
+      background-size: cover;
+      height: 100vh;
+    }
+    .lead{
+      margin: 10px;
+      text-align: start;
+      padding-top: 2em;
+    }
+    button{
+      font-size: x-large;
+    }
+  </style>
+<%- include('../includes/navigation.ejs') %>
+<main class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="<%- post._id %>"><%- post.title %></a></li>
+    </ol>
+  </nav>
+  <div style="background-image: url('<%- post.imageUrl %>'); color:black;" class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+    <div class="title col-md-6 px-0">
+      <h3 class="blog-post-title"><%- post.title %></h3>
+      <h4 class="fst-italic"><%- post.subtitle %></h4>
+      <p class="fst-italic"><%- post.createdAt.toDateString() %></p>
+    </div>
+  </div>
+  <p class="lead my-3"><%- post.content %></p>
+
+  <div style="height: auto;" class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">Comments</h6>
+      <% for (let comment of comments) { %>
+      <div class="d-flex text-muted pt-3">
+        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+          <div class="d-flex justify-content-between">
+            <strong class="text-gray-dark"><%= comment.commentContent %></strong>
+            <strong class="text-gray-dark"><%= comment.commentDate.toDateString() %></strong>
+          </div>
+            <small class="d-block">Posted by <a  href="../user/<%= comment.commentBy %>"><%= comment.commentBy %></a></small>
+        </div>
+      </div>
+      <% } %>
+        <br/>
+  <br/>
+  <% if (isAuthenticated){ %>
+      <div style='display: flex;' class="d-block text-start mt-3">
+          <form action="/comment" method='POST'>
+            <input type='hidden' value='<%- post.id %>' name='id'/>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Leave a comment</label>
+              <textarea class="form-control" name='comment' id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <button class="btn btn-lg btn-outline-secondary" type="submit">Comment <i class="bi bi-pencil"></i></button>
+          </form>
+          <form action="/like" method='POST'>
+            <input type='hidden' value='<%- post.id %>' name='id'/>
+            <button class="btn btn-lg btn-outline-secondary" type="submit"><i class="bi bi-emoji-smile"></i> <%= likes.length %></button>
+          </form>
+        </div> 
+      <%}%>
+    <% if(!isAuthenticated){ %>
+      <a href='login'>Need to login before writing comment</a>
+    <%}%>
+    </div>
+    <br/>
+    <br/>
+  
+</main>
+<%- include('../includes/footer.ejs') %>
+ <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
