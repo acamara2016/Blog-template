@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const authRoutes = require('./routes/auth.routes');
 const postRoute = require('./routes/post.routes');
-const MONGODB_URI = `mongodb+srv://acamara:-----------@-----.------.mongodb.net/----`;
+const MONGODB_URI = `mongodb+srv://dev2:OOKLYGT86WNpZvNE@cluster0.9esca.mongodb.net/blog?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'

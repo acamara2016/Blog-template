@@ -7,7 +7,8 @@ exports.getIndex = (req, res, next) => {
       Post.find()
       .populate('userId', 'username')
       .then(posts => {
-        res.render('posts/index',{
+        console.log(posts);
+        res.render('mundana/pages/index',{
           posts: posts,
           hero_post: posts[Math.floor(Math.random() * posts.length)],
           pageTitle: 'Posts',
@@ -16,22 +17,16 @@ exports.getIndex = (req, res, next) => {
       });
     });
   }else{
-    User.find().then(users=>{
-      const parsedUser = users.map(u=> {
-        if(u._id !== req.session.user._id.toString()){
-          return u;
-        }
-      });
-      Post.find()
-      .populate('userId', 'username')
-      .then(posts => {
-        res.render('posts/index',{
-          username: req.session.user.username,
-          posts: posts,
-          hero_post: posts[Math.floor(Math.random() * posts.length)],
-          pageTitle: 'Posts',
-          suggestions: parsedUser
-        });
+    Post.find()
+    .populate('userId', 'username')
+    .then(posts => {
+      console.log(posts);
+      res.render('mundana/pages/index',{
+        username: req.session.user.username,
+        posts: posts,
+        hero_post: posts[Math.floor(Math.random() * posts.length)],
+        pageTitle: 'Posts',
+        suggestions: parsedUser
       });
     });
   }
