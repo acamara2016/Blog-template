@@ -13,19 +13,25 @@ HEADER
 				<div class="col-md-6 pt-6 pb-6 pr-6 align-self-center">
 					<p class="text-uppercase font-weight-bold">
 						<a class="text-danger" href="./category.html">Stories</a>
+						<br/>
+						<%for (let tag of post.tags){%>
+							<a class="text-success" href="/c/<%= tag %>"><%= tag %></a>
+						<%}%>
+						<a class="text-danger" href="./category.html"></a>
 					</p>
-					<h1 class="display-4 secondfont mb-3 font-weight-bold">Sterling could jump 8% if Brexit deal gets approved by UK Parliament</h1>
+					<h1 class="display-4 secondfont mb-3 font-weight-bold"><%= post.title %></h1>
 					<p class="mb-3">
-						 Analysts told CNBC that the currency could hit anywhere between $1.35-$1.40 if the deal gets passed through the U.K. parliament.
+						<%= post.subtitle %>
+						
 					</p>
 					<div class="d-flex align-items-center">
-						<img class="rounded-circle" src="assets/img/demo/avatar2.jpg" width="70">
-						<small class="ml-2">Jane Seymour <span class="text-muted d-block">A few hours ago &middot; 5 min. read</span>
+						<img class="rounded-circle" src="/assets/img/demo/avatar2.jpg" width="70">
+						<small class="ml-2"><a href="/user/<%= post.userId._id %>"><%= post.userId.username %></a><span class="text-muted d-block">A few hours ago &middot; 5 min. read</span>
 						</small>
 					</div>
 				</div>
 				<div class="col-md-6 pr-0">
-					<img src="./assets/img/demo/intro.jpg">
+					<img src="<%= post.imageUrl %>">
 				</div>
 			</div>
 		</div>
@@ -59,18 +65,7 @@ MAIN
 		</div>
 		<div class="col-md-12 col-lg-8">
 			<article class="article-post">
-			<p>
-				 Holy grail funding non-disclosure agreement advisor ramen bootstrapping ecosystem. Beta crowdfunding iteration assets business plan paradigm shift stealth mass market seed money rockstar niche market marketing buzz market.
-			</p>
-			<p>
-				 Burn rate release facebook termsheet equity technology. Interaction design rockstar network effects handshake creative startup direct mailing. Technology influencer direct mailing deployment return on investment seed round.
-			</p>
-			<p>
-				 Termsheet business model canvas user experience churn rate low hanging fruit backing iteration buyer seed money. Virality release launch party channels validation learning curve paradigm shift hypotheses conversion. Stealth leverage freemium venture startup business-to-business accelerator market.
-			</p>
-			<p>
-				 Freemium non-disclosure agreement lean startup bootstrapping holy grail ramen MVP iteration accelerator. Strategy market ramen leverage paradigm shift seed round entrepreneur crowdfunding social proof angel investor partner network virality.
-			</p>
+			<%= post.content %>
 			</article>
 			<div class="border p-5 bg-lightblue">
 				<div class="row justify-content-between">
@@ -117,20 +112,22 @@ MAIN
 		</div>
 		<div class="col-lg-6">
 			<div class="flex-md-row mb-4 box-shadow h-xl-300">
+				<% for (let other of userPost) { %>
 				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog4.jpg">
+					<img width="100" height="80" src="<%= other.imageUrl %>">
 					<div class="pl-3">
 						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Nasa's IceSat space laser makes height maps of Earth</a>
+						<a class="text-dark" href="./article.html"><%= other.title %></a>
 						</h2>
 						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
+							<%= post.userId.username %> 
 						</div>
 						<small class="text-muted">Dec 12 · 5 min read</small>
 					</div>
 				</div>
+				<%}%>
 				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog5.jpg">
+					<img height="80" src="/assets/img/demo/blog5.jpg">
 					<div class="pl-3">
 						<h2 class="mb-2 h6 font-weight-bold">
 						<a class="text-dark" href="./article.html">Underwater museum brings hope to Lake Titicaca</a>
@@ -142,7 +139,7 @@ MAIN
 					</div>
 				</div>
 				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog6.jpg">
+					<img height="80" src="/assets/img/demo/blog6.jpg">
 					<div class="pl-3">
 						<h2 class="mb-2 h6 font-weight-bold">
 						<a class="text-dark" href="./article.html">Sun-skimming probe starts calling home</a>
@@ -159,9 +156,9 @@ MAIN
 </div>
 <%- include ('../includes/footer.ejs') %> 
 </body>
-<script src="./assets/js/vendor/jquery.min.js" type="text/javascript"></script>
-<script src="./assets/js/vendor/popper.min.js" type="text/javascript"></script>
-<script src="./assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/functions.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/popper.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/functions.js" type="text/javascript"></script>
 </body>
 </html>

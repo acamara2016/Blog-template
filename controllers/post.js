@@ -7,7 +7,6 @@ exports.getIndex = (req, res, next) => {
       Post.find()
       .populate('userId', 'username')
       .then(posts => {
-        console.log(posts);
         res.render('mundana/pages/index',{
           posts: posts,
           hero_post: posts[Math.floor(Math.random() * posts.length)],
@@ -20,7 +19,6 @@ exports.getIndex = (req, res, next) => {
     Post.find()
     .populate('userId', 'username')
     .then(posts => {
-      console.log(posts);
       res.render('mundana/pages/index',{
         username: req.session.user.username,
         posts: posts,
@@ -42,16 +40,55 @@ exports.getPostEdit = (req, res, next) => {
     });
   });
 };
+exports.getAbout = (req, res, next)=>{
+  res.render('mundana/pages/about',{
+    path: '/about',
+    pageTitle: 'About'
+  })
+}
+exports.getDocumentation = (req, res, next) =>{
+  res.render('mundana/pages/doc',{
+    pageTitle: 'Documentation',
+    path: '/doc'
+  })
+}
+exports.getWritePost = (req, res, next)=>{
+  res.render('mundana/pages/newpost',{
+    pageTitle: 'Write post',
+    path: 'write-post'
+  })
+}
+exports.getCategories = (req, res, next)=>{
+  const category = req.params.category
+  Post.find({tags:category})
+  .populate('userId', 'username')
+  .then(posts=>{
+    console.log(posts);
+    res.render('mundana/pages/category',{
+      path: '/categories',
+      posts: posts,
+      heroPost: posts[0],
+      pageTitle: category
+    })
+  })
+   
+}
 exports.getPostById = (req, res, next) => {
   const id = req.params.id.toString();
   Post.findOne({_id: new mongoose.Types.ObjectId(id)})
+    .populate('userId', 'username')
     .then(post => {
-      res.render('posts/single-post',{
-        post: post,
-        comments: post.comments,
-        likes: post.like,
-        pageTitle: post.title
-      });
+      Post.find({userId: post.userId}).then(userPost=>{
+        console.log(userPost)
+        res.render('mundana/pages/article',{
+          post: post,
+          userPost: userPost,
+          heroPost: userPost[0],
+          comments: post.comments,
+          likes: post.like,
+          pageTitle: post.title
+        });
+      })
     });
 };
 
