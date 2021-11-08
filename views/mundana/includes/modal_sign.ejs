@@ -1,0 +1,35 @@
+ 
+    <!-- The modal itself -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="pb-4 pr-4 pl-4 text-center">
+                        <img src="assets/img/favicon.ico">
+                        <h3 class="heading mt-4">Login</h3>
+                        <form action="/login" method="post">
+                            
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required="">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required="">
+                            </div>
+                            <div class="form-group form-check">
+                                <input name="checkout" type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-round">Sign in</button>
+                            <p>Don't have an account?</p> <a href="/signup">click here</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

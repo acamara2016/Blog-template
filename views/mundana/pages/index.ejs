@@ -9,14 +9,14 @@
 		<div class="pl-4 pr-0 h-100 tofront">
 			<div class="row justify-content-between">
 				<div class="col-md-6 pt-6 pb-6 align-self-center">
-					<h1 class="secondfont mb-3 font-weight-bold"><%=hero_post.title %></h1>
+					<h1 class="secondfont mb-3 font-weight-bold"><%=primary_post.title %></h1>
 					<p class="mb-3">
-						<%=hero_post.subtitle %>.
-						<%=hero_post.tags %>
+						<%=primary_post.subtitle %>.
+						<%=primary_post.tags %>
 					</p>
-					<a href="./article.html" class="btn btn-dark">Read More</a>
+					<a href="/post/<%=primary_post._id %>" class="btn btn-dark">Read More</a>
 				</div>
-				<div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;background-image:url(<%=hero_post.imageUrl%>);">	</div>
+				<div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;background-image:url(<%=primary_post.imageUrl%>);">	</div>
 			</div>
 		</div>
 	</div>
@@ -32,59 +32,37 @@ MAIN
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="card border-0 mb-4 box-shadow h-xl-300">              
-                <div style="background-image: url(./assets/img/demo/1.jpg); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+                <div style="background-image: url(<%=secondary_post.imageUrl%>); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
 				<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
 					<h2 class="h4 font-weight-bold">
-					<a class="text-dark" href="./article.html">Brain Stimulation Relieves Depression Symptoms</a>
+					<a class="text-dark" href="/post/<%= secondary_post._id %>"><%=secondary_post.title%></a>
 					</h2>
 					<p class="card-text">
-						 Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.
+						<%=secondary_post.content.substring(0,120)%>...
 					</p>
 					<div>
-						<small class="d-block"><a class="text-muted" href="./author.html">Favid Rick</a></small>
-						<small class="text-muted">Dec 12 &middot; 5 min read</small>
+						<small class="d-block"><a class="text-muted" href="/user/<%= secondary_post.userId.username %> "><%=secondary_post.userId.username%></a></small>
+						<small class="text-muted"><%=secondary_post.createdAt%></small>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-6">
 			<div class="flex-md-row mb-4 box-shadow h-xl-300">
-				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog4.jpg">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Nasa's IceSat space laser makes height maps of Earth</a>
-						</h2>
-						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
+				<% for( let index = 0; index < 3; index++ ) { %>
+					<div class="mb-3 d-flex align-items-center">
+						<img width="120" height="80" src="<%=posts[index].imageUrl %>">
+						<div class="pl-3">
+							<h2 class="mb-2 h6 font-weight-bold">
+							<a class="text-dark" href="/post/<%= posts[index]._id %> "><%= posts[index].title %></a>
+							</h2>
+							<div class="card-text text-muted small">
+								 <%= posts[index].userId.username %> 
+							</div>
+							<small class="text-muted"><%= posts[index].createdAt %> </small>
 						</div>
-						<small class="text-muted">Dec 12 &middot; 5 min read</small>
 					</div>
-				</div>
-				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog5.jpg">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Underwater museum brings hope to Lake Titicaca</a>
-						</h2>
-						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
-						</div>
-						<small class="text-muted">Dec 12 &middot; 5 min read</small>
-					</div>
-				</div>
-				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="./assets/img/demo/blog6.jpg">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Sun-skimming probe starts calling home</a>
-						</h2>
-						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
-						</div>
-						<small class="text-muted">Dec 12 &middot; 5 min read</small>
-					</div>
-				</div>
+				<% } %>
 			</div>
 		</div>
 	</div>
@@ -115,28 +93,29 @@ MAIN
 		<div class="col-md-4 pl-4">
             <h5 class="font-weight-bold spanborder"><span>Popular</span></h5>
 			<ol class="list-featured">
-				<% for (let post of posts) { %>
+				<% for( let index = 0; index < 5; index++ ) { %>
 					<li>
 						<span>
 						<h6 class="font-weight-bold">
-						<a href="/post/<%=post._id%>" class="text-dark"><%= post.title %></a>
+						<a href="/post/<%=posts[index]._id%>" class="text-dark"><%= posts[index].title %></a>
 						</h6>
 						<p class="text-muted">
-							<%= post.subtitle %>
-							<%= post.userId.username %>
+							<%= posts[index].subtitle %>
+							<%= posts[index].userId.username %>
 						</p>
 						</span>
 					</li>
-				<%}%>
+				<% } %>
 			</ol>
 		</div>
 	</div>
 </div>
+<%- include ('../includes/modal_sign.ejs') %> 
 <%- include ('../includes/footer.ejs') %> 
 </body>
-<script src="./assets/js/vendor/jquery.min.js" type="text/javascript"></script>
-<script src="./assets/js/vendor/popper.min.js" type="text/javascript"></script>
-<script src="./assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
-<script src="./assets/js/functions.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/popper.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/functions.js" type="text/javascript"></script>
 </body>
 </html>

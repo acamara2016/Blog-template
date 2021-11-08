@@ -9,7 +9,8 @@ exports.getIndex = (req, res, next) => {
       .then(posts => {
         res.render('mundana/pages/index',{
           posts: posts,
-          hero_post: posts[Math.floor(Math.random() * posts.length)],
+          primary_post: posts[Math.floor(Math.random() * posts.length)],
+          secondary_post: posts[Math.floor(Math.random() * posts.length)],
           pageTitle: 'Posts',
           suggestions: users
         });
@@ -22,9 +23,9 @@ exports.getIndex = (req, res, next) => {
       res.render('mundana/pages/index',{
         username: req.session.user.username,
         posts: posts,
-        hero_post: posts[Math.floor(Math.random() * posts.length)],
-        pageTitle: 'Posts',
-        suggestions: parsedUser
+        primary_post: posts[Math.floor(Math.random() * posts.length)],
+        secondary_post: posts[Math.floor(Math.random() * posts.length)],
+        pageTitle: 'Posts'
       });
     });
   }
@@ -43,19 +44,22 @@ exports.getPostEdit = (req, res, next) => {
 exports.getAbout = (req, res, next)=>{
   res.render('mundana/pages/about',{
     path: '/about',
-    pageTitle: 'About'
+    pageTitle: 'About',
+    username: req.session.user.username,
   })
 }
 exports.getDocumentation = (req, res, next) =>{
   res.render('mundana/pages/doc',{
     pageTitle: 'Documentation',
-    path: '/doc'
+    path: '/doc',
+    username: req.session.user.username,
   })
 }
 exports.getWritePost = (req, res, next)=>{
   res.render('mundana/pages/newpost',{
     pageTitle: 'Write post',
-    path: 'write-post'
+    path: 'write-post',
+    username: req.session.user.username,
   })
 }
 exports.getCategories = (req, res, next)=>{
@@ -67,6 +71,7 @@ exports.getCategories = (req, res, next)=>{
     res.render('mundana/pages/category',{
       path: '/categories',
       posts: posts,
+      username: req.session.user.username,
       heroPost: posts[0],
       pageTitle: category
     })
@@ -79,11 +84,11 @@ exports.getPostById = (req, res, next) => {
     .populate('userId', 'username')
     .then(post => {
       Post.find({userId: post.userId}).then(userPost=>{
-        console.log(userPost)
         res.render('mundana/pages/article',{
           post: post,
           userPost: userPost,
-          heroPost: userPost[0],
+          username: req.session.user.username,
+          heroPost: userPost[Math.floor(Math.random() * userPost.length)],
           comments: post.comments,
           likes: post.like,
           pageTitle: post.title
@@ -110,7 +115,8 @@ exports.postLike = (req, res, next)=>{
 
 exports.getAddPost = (req, res, next) => {
   res.render('posts/newPost',{
-    pageTitle: 'New Post'
+    pageTitle: 'New Post',
+    username: req.session.user.username,
   });
 };
 

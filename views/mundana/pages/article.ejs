@@ -25,7 +25,7 @@ HEADER
 						
 					</p>
 					<div class="d-flex align-items-center">
-						<img class="rounded-circle" src="/assets/img/demo/avatar2.jpg" width="70">
+						<img width="70" class="rounded-circle" src="https://ui-avatars.com/api/?name=<%= post.userId.username %>" />
 						<small class="ml-2"><a href="/user/<%= post.userId._id %>"><%= post.userId.username %></a><span class="text-muted d-block">A few hours ago &middot; 5 min. read</span>
 						</small>
 					</div>
@@ -94,62 +94,39 @@ MAIN
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="card border-0 mb-4 box-shadow h-xl-300">
-				<div style="background-image: url(./assets/img/demo/3.jpg); height: 150px; background-size: cover; background-repeat: no-repeat;">
+				<div style="background-image: url(<%=heroPost.imageUrl%>); height: 150px; background-size: cover; background-repeat: no-repeat;">
 				</div>
 				<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
 					<h2 class="h4 font-weight-bold">
-					<a class="text-dark" href="#">Brain Stimulation Relieves Depression Symptoms</a>
+					<a class="text-dark" href="#"><%= heroPost.title %> </a>
 					</h2>
 					<p class="card-text">
-						 Researchers have found an effective target in the brain for electrical stimulation to improve mood in people suffering from depression.
+						<%= heroPost.content.substring(0,100) %>...
 					</p>
 					<div>
-						<small class="d-block"><a class="text-muted" href="./author.html">Favid Rick</a></small>
-						<small class="text-muted">Dec 12 · 5 min read</small>
+						<small class="d-block"><a class="text-muted" href="./author.html"><%= heroPost.userId.username %></a></small>
+						<small class="text-muted"><%= heroPost.createdAt %></small>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-6">
 			<div class="flex-md-row mb-4 box-shadow h-xl-300">
-				<% for (let other of userPost) { %>
-				<div class="mb-3 d-flex align-items-center">
-					<img width="100" height="80" src="<%= other.imageUrl %>">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html"><%= other.title %></a>
-						</h2>
-						<div class="card-text text-muted small">
-							<%= post.userId.username %> 
+				<% for( let index = 0; index < 3; index++ ) { %>
+					<div class="mb-3 d-flex align-items-center">
+						<img width="100" height="80" src="<%= userPost[index].imageUrl %>">
+						<div class="pl-3">
+							<h2 class="mb-2 h6 font-weight-bold">
+							<a class="text-dark" href="./article.html"><%= userPost[index].title %></a>
+							</h2>
+							<div class="card-text text-muted small">
+								<%= userPost[index].userId.username %> 
+							</div>
+							<small class="text-muted"><%= userPost[index].createdAt %> </small>
 						</div>
-						<small class="text-muted">Dec 12 · 5 min read</small>
 					</div>
-				</div>
-				<%}%>
-				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="/assets/img/demo/blog5.jpg">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Underwater museum brings hope to Lake Titicaca</a>
-						</h2>
-						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
-						</div>
-						<small class="text-muted">Dec 12 · 5 min read</small>
-					</div>
-				</div>
-				<div class="mb-3 d-flex align-items-center">
-					<img height="80" src="/assets/img/demo/blog6.jpg">
-					<div class="pl-3">
-						<h2 class="mb-2 h6 font-weight-bold">
-						<a class="text-dark" href="./article.html">Sun-skimming probe starts calling home</a>
-						</h2>
-						<div class="card-text text-muted small">
-							 Jake Bittle in LOVE/HATE
-						</div>
-						<small class="text-muted">Dec 12 · 5 min read</small>
-					</div>
-				</div>
+				<% } %>
+				 
 			</div>
 		</div>
 	</div>

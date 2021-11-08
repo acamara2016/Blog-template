@@ -6,36 +6,39 @@
         </button>
         <div class="navbar-collapse collapse" id="navbarColor02" style="">
             <ul class="navbar-nav mr-auto d-flex align-items-center">
-                
+ 
                 <li class="nav-item">
-                <a class="nav-link" href="./index.html">Intro <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/doc">Docs</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="./article.html">Culture</a>
-                </li>
+                    <a class="nav-link" href="/about">About</a>
+                </li> 
                 <li class="nav-item">
-                <a class="nav-link" href="./article.html">Tech</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="./article.html">Politics</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="./article.html">Health</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="./article.html">Collections</a>
+                <a class="nav-link" href="/write-post">Write post</a>
                 </li>            
-                <li class="nav-item">
-                <a class="nav-link" href="./about.html">About</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="./docs.html">Template <span class="badge badge-secondary">docs</span></a>
-                </li>
+                <% if (isAuthenticated) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile"> Hey, <%=username %> </a>
+                    </li>
+                <% } %>
             </ul>
             <ul class="navbar-nav ml-auto d-flex align-items-center">
-                <li class="nav-item highlight">
-                <a class="nav-link" href="https://www.wowthemes.net/mundana-free-html-bootstrap-template/">Get this Theme</a>
-                </li>
+                <% if (isAuthenticated) { %>
+                    <li class="nav-item highlight">
+                        <form action="/logout" method="post">
+                            <button type="submit" class="nav-link">Logout</button>
+                        </form>
+                         
+                    </li>
+                <% } %>
+                <% if (!isAuthenticated) { %>
+                    <li class="nav-item highlight">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#loginModal">
+                            Login 
+                        </button>
+                    </li>
+                <% } %>
+ 
             </ul>
         </div>
     </div>

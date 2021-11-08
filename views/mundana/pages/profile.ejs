@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('../includes/head.ejs') %> 
+<body>
+<%- include ('../includes/navigation.ejs') %> 
+
+<!--------------------------------------
+HEADER
+--------------------------------------->
+<div class="container">
+	<div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
+		<div class="h-100 tofront">
+			<div class="row justify-content-between">
+				<div class="col-md-6 pt-6 pb-6 pr-6 align-self-center">
+					<p class="text-uppercase font-weight-bold">
+						<a class="text-danger" href="#">Profile</a>
+					</p>
+					<h1 class="display-4 secondfont mb-3 font-weight-bold"><%= user.fullname %></h1>
+ 
+					<div class="d-flex align-items-center">
+                        <a target="_blank" href="https://www.buymeacoffee.com/sal"><img class="rounded-circle" src="assets/img/demo/sal.jpg" width="70"></a>
+                        <small class="ml-2"><a target="_blank" href="https://www.buymeacoffee.com/sal"><%= user.username %></a>
+						</small>
+					</div>
+				</div>
+	 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Header -->
+    
+<!--------------------------------------
+MAIN
+--------------------------------------->    
+<div class="container pt-4 pb-4">
+	<div class="row justify-content-center">
+		<div class="col-lg-2 pr-4 mb-4 col-md-12 text-center">
+			<div class="sticky-top text-center">
+				<div class="text-muted">
+					Account details
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-lg-8">
+
+                <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                    Following (<%= followers.length %>)
+                  </h3>
+                  <% if (followers.length > 0){%>
+                    <% for (let follower of followers) { %>
+                      <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= follower.userId %></h5>
+                          <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                          <div class='followers-options'>
+                            <a href="user/<%= follower.userId %>" class="btn btn-primary">View profile</a>
+                            <form action="/unfollow" method="POST">
+                              <input type='hidden' name='userId' value='<%= follower.userId %>'/>
+                              <button class="btn btn-danger" type='submit'>Un-follow</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <%}%>
+                  <%}%>
+                  <br/>
+                  <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                    Posts (<%= posts.length %>)
+                  </h3>
+                  <% if (posts.length > 0) { %>
+                    <div class="slider mb-2">
+                        <% for (let post of posts) { %>
+                          <div style="min-width: 400px;" class="col-md-6">
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                              <div class="col p-4 d-flex flex-column position-static">
+                                <strong class="d-inline-block mb-2 text-primary">
+                                <%for (let tag of post.tags){%>
+                                  <%= tag %>&nbsp; 
+                                <%}%>
+                                </strong>
+                                <a href='p/edit/<%= post._id %>'>Edit</a>
+                                <h5 class="mb-0"><a href='../post/<%= post._id %>'><%= post.title %></a></h5>
+                                <div class="mb-1 text-muted"><%= post.subtitle%></div>
+                                <div class="mb-1 text-muted"><p class="blog-post-meta"><%= post.createdAt.toDateString() %> by <a href="<%= post.userId %>"><%= post.userId.username %></a></p></div>
+                                <p class="card-text mb-auto"><%= post.content.substring(0,40)%>...</p>
+                                <a href='../post/<%= post._id %>'>Continue reading</a>
+                              </div>
+                              <div class="col-auto d-none d-lg-block">
+                                <img class="bd-placeholder-img" width="200" height="250" src="<%- post.imageUrl %>"  />
+                              </div>
+                            </div>
+                          </div>
+                        <% } %>
+                    </div>
+                  <% } else { %>
+                      <h1>No Post Found!</h1>
+                  <% } %>
+			<div class="border p-5 bg-lightblue mt-5">
+				<div class="row justify-content-between align-items-center">
+					<div class="col-md-8 mb-2 mb-md-0">
+						<h5 class="font-weight-bold mb-3">About the author of Mundana</h5>
+						 Hi, I'm Sal, the author of the template you're currently previewing. I am sharing for free, for your personal &amp; commercial use on unlimited domains. If you'd like to support my work, donations are highly appreciated! You can remove the credit links after donation. Thank you!
+					</div>
+					<div class="col-md-4">
+						<a target="_blank" href="https://www.buymeacoffee.com/sal" class="btn btn-warning btn-block"><i class="fa fa-coffee"></i> Buy me a coffee</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% if (posts.length > 0) { %>    
+<div class="container pt-4 pb-4">
+	<h5 class="font-weight-bold spanborder"><span>Read next</span></h5>
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card border-0 mb-4 box-shadow h-xl-300">
+				<div style="background-image: url(<%=primary_post.imageUrl%>); height: 150px; background-size: cover; background-repeat: no-repeat;">
+				</div>
+				<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+					<h2 class="h4 font-weight-bold">
+					<a class="text-dark" href="#"><%=primary_post.title%></a>
+					</h2>
+					<p class="card-text">
+						<%=primary_post.content.substring(0,100)%>...
+					</p>
+					<div>
+						<small class="text-muted"><%=primary_post.createdAt%></small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="flex-md-row mb-4 box-shadow h-xl-300">
+				<div class="mb-3 d-flex align-items-center">
+					<img height="80" src="./assets/img/demo/blog4.jpg">
+					<div class="pl-3">
+						<h2 class="mb-2 h6 font-weight-bold">
+						<a class="text-dark" href="./article.html">Nasa's IceSat space laser makes height maps of Earth</a>
+						</h2>
+						<div class="card-text text-muted small">
+							 Jake Bittle in LOVE/HATE
+						</div>
+						<small class="text-muted">Dec 12 · 5 min read</small>
+					</div>
+				</div>
+				<div class="mb-3 d-flex align-items-center">
+					<img height="80" src="./assets/img/demo/blog5.jpg">
+					<div class="pl-3">
+						<h2 class="mb-2 h6 font-weight-bold">
+						<a class="text-dark" href="./article.html">Underwater museum brings hope to Lake Titicaca</a>
+						</h2>
+						<div class="card-text text-muted small">
+							 Jake Bittle in LOVE/HATE
+						</div>
+						<small class="text-muted">Dec 12 · 5 min read</small>
+					</div>
+				</div>
+				<div class="mb-3 d-flex align-items-center">
+					<img height="80" src="./assets/img/demo/blog6.jpg">
+					<div class="pl-3">
+						<h2 class="mb-2 h6 font-weight-bold">
+						<a class="text-dark" href="./article.html">Sun-skimming probe starts calling home</a>
+						</h2>
+						<div class="card-text text-muted small">
+							 Jake Bittle in LOVE/HATE
+						</div>
+						<small class="text-muted">Dec 12 · 5 min read</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% } %> 
+<!-- End Main -->
+<%- include ('../includes/footer.ejs') %> 
+</body>
+<script src="/assets/js/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/popper.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/functions.js" type="text/javascript"></script>
+</body>
+</html>

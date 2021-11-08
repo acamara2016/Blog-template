@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('../includes/head.ejs') %> 
+<body>
+<%- include ('../includes/navigation.ejs') %> 
+
+<!--------------------------------------
+HEADER
+--------------------------------------->
+<div class="container">
+	<div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
+		<div class="h-100 tofront">
+			<div class="row justify-content-between">
+				<div class="col-md-6 pt-6 pb-6 pr-6 align-self-center">
+					<p class="text-uppercase font-weight-bold">
+						<a class="text-danger" href="#">Profile</a>
+					</p>
+					<h1 class="display-4 secondfont mb-3 font-weight-bold"><%= user.fullname %></h1>
+					<div class="d-flex align-items-center">
+              <a target="_blank" href="https://www.buymeacoffee.com/<%= user.username %>"><img width="70" class="rounded-circle" src="https://ui-avatars.com/api/?name=<%= user.username %>" /></a>
+              <small class="ml-2"><a target="_blank" href="https://www.buymeacoffee.com/<%= user.username %>"><%= user.username %></a>
+                <% if (!follow){ %>
+                  <form action="/follow" method="POST">
+                      <input type='hidden' name='userId' value='<%= user._id %>'/>
+                      <button class="btn btn-primary" type='submit'>Follow</button>
+                  </form>
+                  <%}%>
+                  <% if (follow){ %>
+                  <form action="/unfollow" method="POST">
+                      <input type='hidden' name='userId' value='<%= user._id %>'/>
+                      <button class="btn btn-danger" type='submit'>Un-follow</button>
+                  </form>
+                  <%}%>
+						</small>
+					</div>
+				</div>
+	 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Header -->
+    
+<!--------------------------------------
+MAIN
+--------------------------------------->    
+<main class="container">
+ 
+    <h3 class="pb-4 mb-4 fst-italic border-bottom">
+      Following (<%= user.followers.users.length %>)
+    </h3>
+    <% if (user.followers.users.length > 0){%>
+  
+    <%}%>
+    <h3 class="pb-4 mb-4 fst-italic border-bottom">
+      Posts (<%= posts.length %>)
+    </h3>
+    <% if (posts.length > 0) { %>
+      <div class="slider mb-2">
+        <% for (let post of posts) { %>
+          <div class="mb-3 d-flex justify-content-between">
+            <div class="pr-3">
+              <h2 class="mb-1 h4 font-weight-bold">
+              <a class="text-dark" href="/post/<%=post._id%>"><%= post.title %></a>
+              </h2>
+              <p>
+                <%= post.content.substring(0,66)%>...
+              </p>
+              <div class="card-text text-muted small">
+                <%= post.userId.username %>
+              </div>
+              <small class="text-muted"><%= post.createdAt %></small>
+            </div>
+            <img width="120" height="80" src="<%= post.imageUrl %>">
+          </div>
+        <% } %>
+      </div>
+    <% } else { %>
+        <h1>No Post Found!</h1>
+    <% } %>
+    
+  </main>
+<!-- End Main -->
+<%- include ('../includes/footer.ejs') %> 
+</body>
+<script src="/assets/js/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/popper.min.js" type="text/javascript"></script>
+<script src="/assets/js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/functions.js" type="text/javascript"></script>
+</body>
+</html>

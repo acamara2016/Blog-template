@@ -24,7 +24,7 @@ exports.getSignup = (req, res, next) => {
   } else {
     message = null;
   }
-  res.render('auth/signup', {
+  res.render('mundana/pages/signup', {
     path: '/signup',
     pageTitle: 'Signup',
     errorMessage: message
@@ -43,9 +43,11 @@ exports.getSignup = (req, res, next) => {
 exports.getProfile = (req, res, next)=>{
   User.find({_id:req.session.user._id}).then(user=>{
     Post.find({userId: req.session.user._id}).then( posts =>{
-      res.render('profile/profile', {
+      res.render('mundana/pages/profile', {
         user: user[0],
+        username: req.session.user.username,
         posts: posts,
+        primary_post: posts[Math.floor(Math.random() * posts.length)],
         followers: user[0].followers.users,
         pageTitle: 'Account'
       });
@@ -57,8 +59,9 @@ exports.getUser = (req, res, next) =>{
   const followCheck = req.user.followCheck(id);
   User.findById({_id:id}).then( user =>{
     Post.find({ userId: id }).then(posts =>{
-      res.render('profile/other-profile',{
+      res.render('mundana/pages/other-profile',{
         user:user,
+        username: req.session.user.username,
         posts: posts,
         follow: followCheck,
         pageTitle: user.username
@@ -89,6 +92,7 @@ exports.postUnFollow = (req, res, next)=>{
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const checkout = req.body.checkout;
   User.findOne({ email: email })
     .then(user => {
       if (!user) {
@@ -122,6 +126,7 @@ exports.postSignup = (req, res, next) => {
   const fullname = req.body.fullname;
   const password = req.body.password;
   const username = req.body.username;
+  const checkout_profile = req.body.checkout;
   const confirmPassword = req.body.confirmPassword;
   User.findOne({ email: email })
     .then(userDoc => {
@@ -142,7 +147,11 @@ exports.postSignup = (req, res, next) => {
           return user.save();
         })
         .then(result => {
-          res.redirect('/login');
+          if(checkout_profile){
+            res.redirect('/profile')
+          }else{
+            res.redirect('/');
+          }
         //   return transport.sendMail({
         //     to: email,
         //     from: 'camara.visualstudio@protonmail.com',
